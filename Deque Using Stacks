@@ -1,0 +1,99 @@
+### Deque Using Stacks
+
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class DequeUsingStacks {
+private:
+    stack<int> stFront, stBack;
+
+    void transfer(stack<int> &from, stack<int> &to) {
+        while (!from.empty()) {
+            to.push(from.top());
+            from.pop();
+        }
+    }
+
+public:
+
+    void pushFront(int x) {
+        stFront.push(x);
+    }
+
+    void pushBack(int x) {
+        stBack.push(x);
+    }
+
+
+    int popFront() {
+        if (stFront.empty()) {
+            if (stBack.empty()) {
+                cout << "Deque is empty!" << endl;
+                return -1;
+            }
+            transfer(stBack, stFront);
+        }
+        int front = stFront.top();
+        stFront.pop();
+        return front;
+    }
+
+
+    int popBack() {
+        if (stBack.empty()) {
+            if (stFront.empty()) {
+                cout << "Deque is empty!" << endl;
+                return -1;
+            }
+            transfer(stFront, stBack);
+        }
+        int back = stBack.top();
+        stBack.pop();
+        return back;
+    }
+    int getFront() {
+        if (stFront.empty()) {
+            if (stBack.empty()) {
+                cout << "Deque is empty!" << endl;
+                return -1;
+            }
+            transfer(stBack, stFront);
+        }
+        return stFront.top();
+    }
+    int getBack() {
+        if (stBack.empty()) {
+            if (stFront.empty()) {
+                cout << "Deque is empty!" << endl;
+                return -1;
+            }
+            transfer(stFront, stBack);
+        }
+        return stBack.top();
+    }
+    bool isEmpty() {
+        return stFront.empty() && stBack.empty();
+    }
+};
+
+int main() {
+    DequeUsingStacks dq;
+
+    dq.pushFront(10);
+    dq.pushBack(20);
+    dq.pushFront(5);
+    dq.pushBack(30);
+
+    cout << "Front: " << dq.getFront() << endl; 
+    cout << "Back: " << dq.getBack() << endl;   
+
+    cout << "Popped Front: " << dq.popFront() << endl; 
+    cout << "Popped Back: " << dq.popBack() << endl;   
+
+    cout << "Front: " << dq.getFront() << endl; 
+    cout << "Back: " << dq.getBack() << endl;   
+
+    return 0;
+}
