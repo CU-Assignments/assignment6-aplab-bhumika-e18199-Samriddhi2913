@@ -1,0 +1,72 @@
+### QUEUE USING STACK
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class QueueUsingStacks {
+private:
+    stack<int> st1, st2;
+
+public:
+    void enqueue(int x) {
+        st1.push(x);
+    }
+
+    // Dequeue operation
+    int dequeue() {
+        if (st1.empty() && st2.empty()) {
+            cout << "Queue is empty!" << endl;
+            return -1;
+        }
+
+        if (st2.empty()) {
+            while (!st1.empty()) {
+                st2.push(st1.top());
+                st1.pop();
+            }
+        }
+
+        int front = st2.top();
+        st2.pop();
+        return front;
+    }
+    int peek() {
+        if (st1.empty() && st2.empty()) {
+            cout << "Queue is empty!" << endl;
+            return -1;
+        }
+
+        if (st2.empty()) {
+            while (!st1.empty()) {
+                st2.push(st1.top());
+                st1.pop();
+            }
+        }
+
+        return st2.top();
+    }
+
+    // Check if queue is empty
+    bool isEmpty() {
+        return st1.empty() && st2.empty();
+    }
+};
+
+int main() {
+    QueueUsingStacks q;
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+
+    cout << "Dequeued: " << q.dequeue() << endl; 
+    cout << "Front: " << q.peek() << endl;       
+
+    q.enqueue(40);
+    cout << "Dequeued: " << q.dequeue() << endl; 
+    cout << "Dequeued: " << q.dequeue() << endl; 
+    cout << "Dequeued: " << q.dequeue() << endl;
+    cout << "Is queue empty? " << (q.isEmpty() ? "Yes" : "No") << endl;
+
+    return 0;
+}
