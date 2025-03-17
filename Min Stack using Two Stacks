@@ -1,0 +1,64 @@
+### Min Stack using Two Stacks
+
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class MinStack {
+private:
+    stack<int> mainSt;
+    stack<int> minSt;
+
+public:
+    void push(int x) {
+        mainSt.push(x);
+        if (minSt.empty() || x <= minSt.top()) {
+            minSt.push(x);
+        }
+    }
+
+    void pop() {
+        if (mainSt.empty()) {
+            cout << "Stack is empty!" << endl;
+            return;
+        }
+        if (mainSt.top() == minSt.top()) {
+            minSt.pop();
+        }
+        mainSt.pop();
+    }
+
+    int top() {
+        if (mainSt.empty()) {
+            cout << "Stack is empty!" << endl;
+            return -1;
+        }
+        return mainSt.top();
+    }
+
+    int getMin() {
+        if (minSt.empty()) {
+            cout << "Stack is empty!" << endl;
+            return -1;
+        }
+        return minSt.top();
+    }
+    bool isEmpty() {
+        return mainSt.empty();
+    }
+};
+
+int main() {
+    MinStack minSt;
+    
+    minSt.push(5);
+    minSt.push(2);
+    minSt.push(8);
+    minSt.push(1);
+    
+    cout << "Minimum: " << minSt.getMin() << endl; 
+    minSt.pop();
+    cout << "Minimum after pop: " << minSt.getMin() << endl; 
+    return 0;
+}
