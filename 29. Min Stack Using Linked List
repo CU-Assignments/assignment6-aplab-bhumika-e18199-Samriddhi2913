@@ -1,0 +1,91 @@
+### Min Stack Using Linked List
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    int minVal;
+    Node* next;
+    
+    Node(int val, int min, Node* nxt) : data(val), minVal(min), next(nxt) {}
+};
+
+class MinStack {
+private:
+    Node* topNode;
+
+public:
+
+    MinStack() {
+        topNode = nullptr;
+    }
+
+    void push(int x) {
+        if (!topNode) {
+            topNode = new Node(x, x, nullptr);
+        } else {
+            int newMin = min(x, topNode->minVal);
+            topNode = new Node(x, newMin, topNode);
+        }
+        cout << x << " pushed to MinStack.\n";
+    }
+
+    void pop() {
+        if (!topNode) {
+            cout << "Stack Underflow\n";
+            return;
+        }
+        cout << topNode->data << " popped from MinStack.\n";
+        Node* temp = topNode;
+        topNode = topNode->next;
+        delete temp;
+    }
+
+    int getMin() {
+        if (!topNode) {
+            cout << "Stack is empty.\n";
+            return -1;
+        }
+        return topNode->minVal;
+    }
+
+    void display() {
+        Node* temp = topNode;
+        cout << "Stack (top to bottom): ";
+        while (temp) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    ~MinStack() {
+        while (topNode) {
+            Node* temp = topNode;
+            topNode = topNode->next;
+            delete temp;
+        }
+    }
+};
+
+int main() {
+    MinStack ms;
+    ms.push(10);
+    ms.push(5);
+    ms.push(20);
+    ms.push(2);
+
+    ms.display();
+    cout << "Current Min: " << ms.getMin() << endl;
+
+    ms.pop();
+    ms.display();
+    cout << "Current Min: " << ms.getMin() << endl;
+
+    ms.pop();
+    ms.display();
+    cout << "Current Min: " << ms.getMin() << endl;
+
+    return 0;
+}
