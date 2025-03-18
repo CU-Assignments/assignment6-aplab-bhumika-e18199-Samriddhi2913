@@ -1,0 +1,80 @@
+// ### Implement Priority Queue using Heap
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class PriorityQueue {
+private:
+    vector<int> heap;
+
+    void heapifyUp(int index) {
+        if (index && heap[(index - 1) / 2] < heap[index]) {
+            swap(heap[index], heap[(index - 1) / 2]);
+            heapifyUp((index - 1) / 2);
+        }
+    }
+
+
+    void heapifyDown(int index) {
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+        int largest = index;
+
+        if (left < heap.size() && heap[left] > heap[largest])
+            largest = left;
+        if (right < heap.size() && heap[right] > heap[largest])
+            largest = right;
+
+        if (largest != index) {
+            swap(heap[index], heap[largest]);
+            heapifyDown(largest);
+        }
+    }
+
+public:
+
+    void push(int val) {
+        heap.push_back(val);
+        heapifyUp(heap.size() - 1);
+        cout << val << " inserted into the priority queue\n";
+    }
+
+    void pop() {
+        if (heap.empty()) {
+            cout << "Priority Queue is empty\n";
+            return;
+        }
+        cout << heap[0] << " removed from the priority queue\n";
+        heap[0] = heap.back();
+        heap.pop_back();
+        heapifyDown(0);
+    }
+
+    int top() {
+        if (heap.empty()) {
+            cout << "Priority Queue is empty\n";
+            return -1;
+        }
+        return heap[0];
+    }
+
+    bool isEmpty() {
+        return heap.empty();
+    }
+};
+
+int main() {
+    PriorityQueue pq;
+
+    pq.push(30);
+    pq.push(20);
+    pq.push(40);
+    pq.push(50);
+
+    cout << "Top element: " << pq.top() << endl;
+
+    pq.pop();
+    cout << "Top element after pop: " << pq.top() << endl;
+    return 0;
+}
