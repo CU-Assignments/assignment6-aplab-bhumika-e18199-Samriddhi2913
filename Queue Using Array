@@ -1,0 +1,78 @@
+###  Queue Using Array
+#include <iostream>
+using namespace std;
+
+class Queue {
+private:
+    int front, rear, size;
+    int* arr;
+
+public:
+
+    Queue(int capacity) {
+        size = capacity;
+        arr = new int[size];
+        front = -1;
+        rear = -1;
+    }
+
+    bool isFull() {
+        return rear == size - 1;
+    }
+
+    bool isEmpty() {
+        return front == -1 || front > rear;
+    }
+
+    //ENQUEUE OPERATION
+    void enqueue(int value) {
+        if (isFull()) {
+            cout << "Queue Overflow\n";
+            return;
+        }
+        if (front == -1) front = 0;
+        arr[++rear] = value;
+        cout << value << " enqueued to queue\n";
+    }
+
+    //DEQUEUE OPERATION
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue Underflow\n";
+            return;
+        }
+        cout << arr[front++] << " dequeued from queue\n";
+    }
+
+
+    void peek() {
+        if (isEmpty()) {
+            cout << "Queue is empty\n";
+            return;
+        }
+        cout << "Front element: " << arr[front] << endl;
+    }
+
+    ~Queue() {
+        delete[] arr;
+    }
+};
+
+int main() {
+    Queue q(5);
+
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.enqueue(40);
+    q.enqueue(50);
+
+    q.peek();
+
+    q.dequeue();
+    q.dequeue();
+
+    q.peek();
+
+    return 0;
+}
