@@ -1,0 +1,45 @@
+### Implement Graph using Hash Table (Adjacency List Representation)
+
+#include <iostream>
+#include <unordered_map>
+#include <list>
+using namespace std;
+
+class Graph {
+private:
+    unordered_map<int, list<int>> adj;
+
+public:
+
+    void addEdge(int u, int v, bool isDirected = false) {
+        adj[u].push_back(v);
+        if (!isDirected) {
+            adj[v].push_back(u); 
+        }
+    }
+
+    void printGraph() {
+        cout << "Graph Adjacency List:\n";
+        for (auto& pair : adj) {
+            cout << pair.first << " -> ";
+            for (auto& neighbor : pair.second) {
+                cout << neighbor << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Graph g;
+
+    g.addEdge(1, 2);
+    g.addEdge(1, 3);
+    g.addEdge(2, 4);
+    g.addEdge(3, 4);
+    g.addEdge(4, 5);
+
+    g.printGraph();
+
+    return 0;
+}
