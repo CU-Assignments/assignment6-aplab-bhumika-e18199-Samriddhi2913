@@ -1,0 +1,92 @@
+### Implement Queue using Linked List
+
+#include <iostream>
+using namespace std;
+
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+
+class Queue {
+private:
+    Node *front, *rear;
+
+public:
+
+    Queue() {
+        front = rear = nullptr;
+    }
+
+    void enqueue(int value) {
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = nullptr;
+
+        // If queue is empty
+        if (rear == nullptr) {
+            front = rear = newNode;
+            cout << value << " enqueued to queue\n";
+            return;
+        }
+
+        rear->next = newNode;
+        rear = newNode;
+        cout << value << " enqueued to queue\n";
+    }
+
+    void dequeue() {
+        if (front == nullptr) {
+            cout << "Queue Underflow (Empty)\n";
+            return;
+        }
+
+        Node* temp = front;
+        cout << temp->data << " dequeued from queue\n";
+        front = front->next;
+
+        if (front == nullptr)
+            rear = nullptr;
+
+        delete temp;
+    }
+
+    // Peek operation
+    void peek() {
+        if (front == nullptr) {
+            cout << "Queue is empty\n";
+            return;
+        }
+        cout << "Front element: " << front->data << endl;
+    }
+
+    ~Queue() {
+        while (front != nullptr) {
+            Node* temp = front;
+            front = front->next;
+            delete temp;
+        }
+    }
+};
+
+int main() {
+    Queue q;
+
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+
+    q.peek();
+
+    q.dequeue();
+    q.dequeue();
+
+    q.peek();
+
+    q.dequeue();
+    q.dequeue(); 
+
+    return 0;
+}
