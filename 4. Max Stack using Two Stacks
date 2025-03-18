@@ -1,0 +1,72 @@
+### Implement Max Stack using Two Stacks
+
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class MaxStack {
+private:
+    stack<int> mainStack;
+    stack<int> maxStack;
+
+public:
+
+    void push(int x) {
+        mainStack.push(x);
+        if (maxStack.empty() || x >= maxStack.top()) {
+            maxStack.push(x);
+        } else {
+            maxStack.push(maxStack.top());
+        }
+        cout << x << " pushed into MaxStack.\n";
+    }
+
+    void pop() {
+        if (mainStack.empty()) {
+            cout << "Stack Underflow\n";
+            return;
+        }
+        cout << mainStack.top() << " popped from MaxStack.\n";
+        mainStack.pop();
+        maxStack.pop();
+    }
+
+    int getMax() {
+        if (maxStack.empty()) {
+            cout << "Stack is empty.\n";
+            return -1;
+        }
+        return maxStack.top();
+    }
+
+    void display() {
+        stack<int> temp = mainStack;
+        cout << "Stack elements (top to bottom): ";
+        while (!temp.empty()) {
+            cout << temp.top() << " ";
+            temp.pop();
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    MaxStack ms;
+    ms.push(10);
+    ms.push(5);
+    ms.push(20);
+    ms.push(15);
+
+    ms.display();
+    cout << "Current Max: " << ms.getMax() << endl;
+
+    ms.pop();
+    ms.display();
+    cout << "Current Max: " << ms.getMax() << endl;
+
+    ms.pop();
+    ms.display();
+    cout << "Current Max: " << ms.getMax() << endl;
+
+    return 0;
+}
