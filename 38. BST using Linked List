@@ -1,0 +1,92 @@
+### Implement BST using Linked List
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int value) {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+class BST {
+private:
+    Node* root;
+
+    Node* insert(Node* node, int value) {
+        if (node == nullptr)
+            return new Node(value);
+
+        if (value < node->data)
+            node->left = insert(node->left, value);
+        else if (value > node->data)
+            node->right = insert(node->right, value);
+
+        return node; 
+    }
+
+    void inorder(Node* node) {
+        if (node == nullptr) return;
+        inorder(node->left);
+        cout << node->data << " ";
+        inorder(node->right);
+    }
+
+    bool search(Node* node, int key) {
+        if (node == nullptr) return false;
+        if (node->data == key) return true;
+        if (key < node->data)
+            return search(node->left, key);
+        else
+            return search(node->right, key);
+    }
+
+public:
+
+    BST() {
+        root = nullptr;
+    }
+
+    void insert(int value) {
+        root = insert(root, value);
+        cout << value << " inserted into BST.\n";
+    }
+
+
+    void displayInorder() {
+        cout << "Inorder Traversal: ";
+        inorder(root);
+        cout << endl;
+    }
+
+    void search(int key) {
+        if (search(root, key))
+            cout << key << " found in the BST.\n";
+        else
+            cout << key << " not found in the BST.\n";
+    }
+};
+
+int main() {
+    BST tree;
+
+    tree.insert(50);
+    tree.insert(30);
+    tree.insert(70);
+    tree.insert(20);
+    tree.insert(40);
+    tree.insert(60);
+    tree.insert(80);
+
+    tree.displayInorder();
+
+    tree.search(60);
+    tree.search(25);
+
+    return 0;
+}
